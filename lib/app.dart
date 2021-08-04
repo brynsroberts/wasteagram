@@ -7,20 +7,8 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Wasteagram',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text(
-            'Wasteagram',
-          ),
-        ),
-        body: const Center(
-          child: HomeScreen(),
-        ),
-      ),
+      theme: ThemeData.light(),
+      home: HomeScreen(),
     );
   }
 }
