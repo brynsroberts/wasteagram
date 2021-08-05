@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:location/location.dart';
 import '../models/waste_entry.dart';
 
@@ -90,10 +91,10 @@ class _CameraScreenState extends State<CameraScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: 100,
+                      height: 75,
                       width: double.infinity,
                       child: ElevatedButton(
-                        child: Text('PRESS ME'),
+                        child: Icon(Icons.cloud_upload),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
@@ -102,7 +103,7 @@ class _CameraScreenState extends State<CameraScreen> {
 
                             // create entry model
                             WasteEntry entry = WasteEntry(
-                                date: DateFormat('EEE, MMM d, ' 'yy')
+                                date: DateFormat('EEE, MMM d, ' 'yyyy')
                                     .format(DateTime.now()),
                                 imageURL: url!,
                                 quantity: text!,
@@ -110,6 +111,13 @@ class _CameraScreenState extends State<CameraScreen> {
                                 longitude: '${locationData!.longitude}');
 
                             // save to database
+                            FirebaseFirestore.instance.collection('food').add({
+                              'date': entry.date,
+                              'imageURL': entry.imageURL,
+                              'latitude': entry.latitude,
+                              'longitude': entry.longitude,
+                              'quantity': entry.quantity
+                            });
 
                             // pop back to home screen
                             Navigator.pop(context);

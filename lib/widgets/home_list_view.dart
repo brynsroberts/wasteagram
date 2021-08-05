@@ -15,9 +15,12 @@ class _HomeListViewState extends State<HomeListView> {
   Widget build(BuildContext context) {
     return Expanded(
       child: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('food').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection('food')
+            .orderBy('date', descending: true)
+            .snapshots(),
         builder: (content, snapshot) {
-          if (snapshot.hasData) {
+          if (snapshot.hasData && (snapshot.data!).docs.length > 0) {
             return ListView.builder(
               itemCount: (snapshot.data!).docs.length,
               itemBuilder: (context, index) {

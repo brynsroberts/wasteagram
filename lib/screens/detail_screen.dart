@@ -22,12 +22,17 @@ class _DetailScreenState extends State<DetailScreen> {
         padding: EdgeInsets.all(20),
         child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text('${widget.post['date']}'),
-              Image.network('${widget.post['imageURL']}'),
+              Image.network(
+                '${widget.post['imageURL']}',
+                width: 200,
+                height: 200,
+              ),
               Text('Items: ${widget.post['quantity']}'),
               Text(
-                  'Location: (${widget.post['longitude']}, ${widget.post['latitude']})')
+                  'Location: (${widget.post['latitude']}, ${widget.post['longitude']})')
             ],
           ),
         ),
