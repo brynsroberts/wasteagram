@@ -7,6 +7,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -14,8 +15,10 @@ class HomeScreen extends StatelessWidget {
           'Wasteagram',
         ),
       ),
-      body: Center(
-        child: Column(
+      body: Padding(
+        padding: EdgeInsets.all(20),
+        child: Center(
+          child: Column(
             children: [
               HomeListView(),
               ElevatedButton(
@@ -31,6 +34,7 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
     );
   }
 }
