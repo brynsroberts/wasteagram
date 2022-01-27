@@ -11,4 +11,8 @@ class WasteEntry {
       required this.quantity,
       required this.latitude,
       required this.longitude});
+
+  String printEntry() {
+    return ('date: $date, imageURL: $imageURL, quantity: $quantity, latitude: $latitude, longitude: $longitude');
+  }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -93,36 +92,41 @@ class _CameraScreenState extends State<CameraScreen> {
                     SizedBox(
                       height: 75,
                       width: double.infinity,
-                      child: ElevatedButton(
-                        child: Icon(Icons.cloud_upload),
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            _formKey.currentState!.save();
+                      child: Semantics(
+                        button: true,
+                        onTapHint:
+                            'click on button to upload waste product to database',
+                        child: ElevatedButton(
+                          child: Icon(Icons.cloud_upload),
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
 
-                            // get location
+                              // create entry model
+                              WasteEntry entry = WasteEntry(
+                                  date: DateFormat('EEE, MMM d, ' 'yyyy')
+                                      .format(DateTime.now()),
+                                  imageURL: url!,
+                                  quantity: text!,
+                                  latitude: '${locationData!.latitude}',
+                                  longitude: '${locationData!.longitude}');
 
-                            // create entry model
-                            WasteEntry entry = WasteEntry(
-                                date: DateFormat('EEE, MMM d, ' 'yyyy')
-                                    .format(DateTime.now()),
-                                imageURL: url!,
-                                quantity: text!,
-                                latitude: '${locationData!.latitude}',
-                                longitude: '${locationData!.longitude}');
+                              // save to database
+                              FirebaseFirestore.instance
+                                  .collection('food')
+                                  .add({
+                                'date': entry.date,
+                                'imageURL': entry.imageURL,
+                                'latitude': entry.latitude,
+                                'longitude': entry.longitude,
+                                'quantity': entry.quantity
+                              });
 
-                            // save to database
-                            FirebaseFirestore.instance.collection('food').add({
-                              'date': entry.date,
-                              'imageURL': entry.imageURL,
-                              'latitude': entry.latitude,
-                              'longitude': entry.longitude,
-                              'quantity': entry.quantity
-                            });
-
-                            // pop back to home screen
-                            Navigator.pop(context);
-                          }
-                        },
+                              // pop back to home screen
+                              Navigator.pop(context);
+                            }
+                          },
+                        ),
                       ),
                     )
                   ],

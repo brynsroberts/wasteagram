@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:wasteagram/models/waste_entry.dart';
+import '../widgets/detail_image.dart';
 
 class DetailScreen extends StatefulWidget {
-  final post;
-  DetailScreen({Key? key, required this.post}) : super(key: key);
+  final WasteEntry entry;
+  DetailScreen({Key? key, required this.entry}) : super(key: key);
 
   @override
   _DetailScreenState createState() => _DetailScreenState();
@@ -24,15 +26,23 @@ class _DetailScreenState extends State<DetailScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text('${widget.post['date']}'),
-              Image.network(
-                '${widget.post['imageURL']}',
-                width: 200,
-                height: 200,
-              ),
-              Text('Items: ${widget.post['quantity']}'),
               Text(
-                  'Location: (${widget.post['latitude']}, ${widget.post['longitude']})')
+                '${widget.entry.date}',
+                style: Theme.of(context).textTheme.headline4,
+              ),
+              DetailImage(url: widget.entry.imageURL),
+              Text(
+                'Items: ${widget.entry.quantity}',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              Text(
+                'Latitude: ${widget.entry.latitude}',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              Text(
+                'Longitude: ${widget.entry.longitude}',
+                style: Theme.of(context).textTheme.headline6,
+              ),
             ],
           ),
         ),

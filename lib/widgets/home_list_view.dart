@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:wasteagram/screens/detail_screen.dart';
-import '../screens/detail_screen.dart';
+import 'package:wasteagram/models/waste_entry.dart';
+import '../widgets/item_card.dart';
 
 class HomeListView extends StatefulWidget {
   const HomeListView({Key? key}) : super(key: key);
@@ -25,21 +25,13 @@ class _HomeListViewState extends State<HomeListView> {
               itemCount: (snapshot.data!).docs.length,
               itemBuilder: (context, index) {
                 var post = (snapshot.data!).docs[index];
-                return Card(
-                  child: ListTile(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => DetailScreen(post: post),
-                        ),
-                      );
-                    },
-                    title: Text(
-                      post['date'],
-                    ),
-                    trailing: Text(
-                      post['quantity'],
-                    ),
+                return ItemCard(
+                  entry: WasteEntry(
+                    date: post['date'],
+                    imageURL: post['imageURL'],
+                    quantity: post['quantity'],
+                    latitude: post['latitude'],
+                    longitude: post['longitude'],
                   ),
                 );
               },
